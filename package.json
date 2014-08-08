@@ -10,7 +10,6 @@
     "url": "https://github.com/freiksenet/reititin.git"
   },
   "dependencies": {
-    "lodash": "2.4.1",
     "route-parser": "0.0.2",
     "query-string": "^0.4.1"
   },
