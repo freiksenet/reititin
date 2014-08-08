@@ -1,0 +1,22 @@
+{
+  "name": "reititin",
+  "version": "0.1.0",
+  "author": "Mikhail <freiksenet@gmail.com> Novikov",
+  "description": "Sane routing library",
+  "keywords": ["router", "url", "route", "browser"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freiksenet/reititin.git"
+  },
+  "dependencies": {
+    "lodash": "2.4.1",
+    "route-parser": "0.0.2",
+    "query-string": "^0.4.1"
+  },
+  "devDependencies": {
+    "browserify": "3.41.x",
+    "uglifyify": "^2.5.0"
+  },
+  "main": "./reititin.js"
+}
