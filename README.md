@@ -73,7 +73,7 @@ routes['*'] = function (match) {};
 var routerWithDefault = new Reititin.Router(routes);
 ```
 
-### `Router.match(url)
+### Router.match(url)
 
 Tries to match the url againts the router rules.
 
@@ -104,7 +104,7 @@ router.match('/splat/foo/bar/baz');
 
 ```
 
-### `Router.route(url)`
+### Router.route(url)
 
 Tries to match the route with Route.match and calls the given callback with
 match object, if match is successful.
