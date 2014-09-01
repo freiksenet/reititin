@@ -7,7 +7,17 @@ var isArray = Array.isArray || function (arg) {
   return Object.prototype.toString.call(arg) === '[object Array]';
 };
 
-var inherits = function (ctor, superCtor) {
+function fnName (fn) {
+  if (Function.prototype.name === undefined) {
+    var funcNameRegex = /function\s([^(]{1,})\(/;
+    var results = (funcNameRegex).exec((fn).toString());
+    return (results && results.length > 1) ? results[1].trim() : "";
+  } else {
+    return fn.name;
+  }
+}
+
+function inherits (ctor, superCtor) {
   ctor.super_ = superCtor;
   ctor.prototype = Object.create(superCtor.prototype, {
     constructor: {
@@ -17,7 +27,7 @@ var inherits = function (ctor, superCtor) {
       configurable: true
     }
   });
-};
+}
 
 var Router = function (routes) {
   this.names = {};
@@ -32,8 +42,8 @@ var Router = function (routes) {
       if (isArray(routeCallback)) {
         routeName = routeCallback[0];
         routeCallback = routeCallback[1];
-      } else if (routeCallback.name.length > 0) {
-        routeName = routeCallback.name;
+      } else if (fnName(routeCallback).length > 0) {
+        routeName = fnName(routeCallback);
       } else {
         routeName = route;
       }
@@ -43,8 +53,8 @@ var Router = function (routes) {
   }
 };
 
-Router.prototype._getByName = function (name) {
-  return this.routes[this.names[name]];
+function getByName (router, name) {
+  return router.routes[router.names[name]];
 };
 
 Router.prototype.add = function (name, route, callback) {
@@ -124,7 +134,7 @@ Router.prototype.match = function (url) {
 Router.prototype.route = function (url) {
   var match = this.match(url);
   if (match !== false) {
-    this._getByName(match.name).callback(match);
+    getByName(this, match.name).callback(match);
     return match;
   } else {
     throw "Couldn't match url '" + url + "'.";
@@ -132,7 +142,7 @@ Router.prototype.route = function (url) {
 };
 
 Router.prototype.find = function (name, params, query) {
-  var rule = this._getByName(name);
+  var rule = getByName(this, name);
   if (!rule) {
     rule = this.routes[name] || {};
   }
