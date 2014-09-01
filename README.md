@@ -1,8 +1,8 @@
 # reititin - sane routing library
 
-reititin (finnish for 'router') is a small library to do essential routing.
+reititin (Finnish for 'router') is a small library to do essential routing.
 In my search for a router, I couldn't find one that matches all of the following
-criterias:
+criteria:
 
 - does both route matching and route reversal
 - match context is passed to routing function
@@ -36,10 +36,10 @@ make
 ## Usage
 
 Examples are using CommonJS modules, just substitute require statements with
-your favourite ~~poison~~module system or alternatively window.Reititin.
+your favorite ~~poison~~module system or alternatively window.Reititin.
 
 `Reititin.Router` is the main constructor function, that accepts object, whose
-keys are route definitions and values are callbacks to be called on succesful
+keys are route definitions and values are callbacks to be called on successful
 routing.
 
 All routes in Reititin have unique names. Reititin can get route in 3 different
@@ -61,7 +61,7 @@ var routes = {
   '/route/good': function (match) {},
   // Route with *splat, matches url fragment
   '/splat/*splat': function splat (match) {},
-  // Route with (optional) fragment 
+  // Route with (optional) fragment
   '/optional(/thing)': function option (match) {}
 };
 
@@ -75,12 +75,12 @@ var routerWithDefault = new Reititin.Router(routes);
 
 ### Router.match(url)
 
-Tries to match the url againts the router rules.
+Tries to match the url against the router rules.
 
 If router fails to match, and there is no catch-all rule, the method will return
 false. If router matches, then method will return match object. Match object has
 4 fields, `name` is route name, `url` is full url that was matched, `params` is
-object of all url paramaters and their value and, finally, `query` is a parsed
+object of all url parameters and their value and, finally, `query` is a parsed
 querystring.
 
 ```js
@@ -152,25 +152,25 @@ $.getJSON(router.reverse('routes'));
 
 ### Router.add(name, route, callback)
 
-Add a new route with given `name`, `route` and `callback`. Returns router itself 
+Add a new route with given `name`, `route` and `callback`. Returns router itself
 for chaining. It will override existing routes if there is one with both name
 *or* route definition.
 
 ### Router.remove(name)
 
-Removes a route, `name` is either a route name or route definition. Removes 
+Removes a route, `name` is either a route name or route definition. Removes
 matching both by name and route definition.
 
 ## Hooking up the real life - HashRouter
 
 `Reititin.HashRouter` is a wrapper around `Reititin.Router` that uses
-document.location.hash urls. It has same interfarce as normal router, but there 
+document.location.hash urls. It has same interface as normal router, but there
 are 3 extra methods in HashRouter.
 
 ### HashRouter.start()
 
 Binds `window.onhashchange` event, will try to route when hash changes. Also
-tries to route with current url, if there is no url after hash, then '/' is 
+tries to route with current url, if there is no url after hash, then '/' is
 assumed.
 
 ### HashRouter.stop()
@@ -179,7 +179,7 @@ Unbinds the `window.onhashchange` event.
 
 ### HashRouter.navigate(name, params, query)
 
-Reverses the url with given name, params and query and then changes page has to 
+Reverses the url with given name, params and query and then changes page has to
 it.
 
 ## Different real life
