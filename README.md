@@ -4,7 +4,7 @@ reititin (finnish for 'router') is a small library to do essential routing.
 In my search for a router, I couldn't find one that matches all of the following
 criterias:
 
-- does both route mathching and route reversal
+- does both route matching and route reversal
 - match context is passed to routing function
 - handles query string
 - is packaged sanely (usable from Browserify without hacks)
