@@ -20,7 +20,7 @@ If you use browserify or webpack
 npm install reititin
 ```
 
-If you use require.js or want to use it standalone, then standalone version is
+If you use require.js or want to use it standalone, then UMD version is
 available in [Releases](https://github.com/freiksenet/reititin/releases).
 
 If you want to build from source
@@ -28,7 +28,7 @@ If you want to build from source
 ```
 git clone https://github.com/freiksenet/reititin.git
 cd reititin
-make
+npm run umd(-min)
 ```
 
 `build/reititin.(min.)js` will be created.

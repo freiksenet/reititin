@@ -55,7 +55,7 @@ var Router = function (routes) {
 
 function getByName (router, name) {
   return router.routes[router.names[name]];
-};
+}
 
 Router.prototype.add = function (name, route, callback) {
   if (route === '*') {
