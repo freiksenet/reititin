@@ -34,7 +34,7 @@
   "scripts": {
     "umd": "webpack --config webpack.config.js",
     "umd-min": "webpack --config webpack.config.min.js",
-    "test": "./node_modules/.bin/jshint reititin.js tests/*.js && './node_modules/.bin/karma start --single-run --browsers PhantomJS Firefox",
+    "test": "./node_modules/.bin/jshint reititin.js tests/*.js && ./node_modules/.bin/karma start --single-run --browsers PhantomJS Firefox",
     "test-watch": "karma start"
   }
 }
