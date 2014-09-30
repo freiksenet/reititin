@@ -9,7 +9,8 @@ criteria:
 - does both route matching and route reversal
 - match context is passed to routing function
 - handles query string
-- is packaged sanely (usable from Browserify without hacks)
+- is packaged sanely (usable from any CommonJS module consumer like
+  Webpack/Browserify without hacks)
 - is a library, not a framework or global context eating monstrosity
 
 reititin tries to do all the above.
