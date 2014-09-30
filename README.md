@@ -28,10 +28,17 @@ If you want to build from source
 ```
 git clone https://github.com/freiksenet/reititin.git
 cd reititin
+npm install
 npm run umd(-min)
 ```
 
 `build/reititin.(min.)js` will be created.
+
+Tests can be run with
+
+```
+npm test # or npm run test-watch for continious testing
+```
 
 ## Usage
 
