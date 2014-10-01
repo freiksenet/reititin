@@ -48,9 +48,9 @@ npm test # or npm run test-watch for continious testing
 Examples are using CommonJS modules, just substitute require statements with
 your favorite ~~poison~~module system or alternatively window.Reititin.
 
-`Reititin.Router` is the main constructor function, that accepts object, whose
-keys are route definitions and values are callbacks to be called on successful
-routing.
+`Reititin.Router` is the main constructor function, that accepts an array of
+route definitions, which are arrays of route and callback or route, name and
+callback. Callbacks to be called on successful routing with match object.
 
 All routes in Reititin have unique names. Reititin can get route in 3 different
 ways:
@@ -62,25 +62,25 @@ ways:
 ```js
 var Reititin = require('reititin');
 
-var routes = {
+var routeDef = [
   // Route with named function, name is 'routes'
-  '/route': function routes (match) {},
+  ['/route', function routes (match) {}],
   // Route with explicit name, name is 'route', :id is parameter
-  '/route/:id': ['route', function (match) {}],
+  ['/route/:id', 'route', function (match) {}],
   // Route with url name, name is '/route/good'
-  '/route/good': function (match) {},
+  ['/route/good', function (match) {}],
   // Route with *splat, matches url fragment
-  '/splat/*splat': function splat (match) {},
+  ['/splat/*splat', function splat (match) {}],
   // Route with (optional) fragment
-  '/optional(/thing)': function option (match) {}
-};
+  ['/optional(/thing)', function option (match) {}]
+];
 
 // Creating router
-var router = new Reititin.Router(routes);
+var router = new Reititin.Router(routeDef);
 
 // Optional catch all match
-routes['*'] = function (match) {};
-var routerWithDefault = new Reititin.Router(routes);
+routeDef['*'] = function (match) {};
+var routerWithDefault = new Reititin.Router(routeDef);
 ```
 
 ### Router.match(url)
@@ -107,7 +107,7 @@ router.match('/route/5');
 // ==> {name: 'route', url: '/route/5', params: {id: 5}, query: {}}
 
 router.match('/route/5?foo=baz&gar=brak');
-// ==> {name: 'route', url: '/route/5?foo=baz&gar=brak', params: {id: 5}}, query: {foo: baz, gar: brak}}
+// ==> {name: 'route', url: '/route/5?foo=baz&gar=brak', params: {id: 5}, query: {foo: 'baz', gar: 'brak'}}
 
 router.match('/splat/foo/bar/baz');
 // ==> {name: 'splat', url: '/splat/foo/bar/baz', params: {splat: 'foo/bar/baz'}, query: {}}

@@ -1,11 +1,8 @@
 "use strict";
 
+var _ = require('lodash');
 var qs = require('query-string');
 var Route = require('route-parser');
-
-var isArray = Array.isArray || function (arg) {
-  return Object.prototype.toString.call(arg) === '[object Array]';
-};
 
 function fnName (fn) {
   if (Function.prototype.name === undefined) {
@@ -32,19 +29,26 @@ function inherits (ctor, superCtor) {
 var Router = function (routes) {
   this.names = {};
   this.routes = {};
+  this.routeList = [];
   this.defaultRoute = undefined;
 
   if (routes) {
-    for (var route in routes) {
-      var routeName;
-      var routeCallback = routes[route];
+    for (var i in routes) {
+      var routeDef = routes[i];
+      var route = routeDef[0];
+      var routeName = false;
+      var routeCallback = false;
 
-      if (isArray(routeCallback)) {
-        routeName = routeCallback[0];
-        routeCallback = routeCallback[1];
-      } else if (fnName(routeCallback).length > 0) {
-        routeName = fnName(routeCallback);
+      if (routeDef.length === 3) {
+        routeName = routeDef[1];
+        routeCallback = routeDef[2];
       } else {
+        routeCallback = routeDef[1];
+      }
+
+      if (fnName(routeCallback).length > 0) {
+        routeName = fnName(routeCallback);
+      } else if (!routeName) {
         routeName = route;
       }
 
@@ -74,6 +78,7 @@ Router.prototype.add = function (name, route, callback) {
       matcher: new Route(route),
       callback: callback
     };
+    this.routeList.push(name);
   }
 
   return this;
@@ -86,10 +91,12 @@ Router.prototype.remove = function (name) {
     var route = this.names[name];
     delete this.routes[route];
     delete this.names[name];
+    _.pull(this.routeList, name);
   } else if (this.routes[name]) {
     var routeName = this.routes[name].name;
     delete this.names[routeName];
     delete this.routes[name];
+    _.pull(this.routeList(routeName));
   }
 
   return this;
@@ -116,8 +123,9 @@ function matchOne (route, url) {
 }
 
 Router.prototype.match = function (url) {
-  for (var routeKey in this.routes) {
-    var route = this.routes[routeKey];
+  for (var i in this.routeList) {
+    var routeName = this.routeList[i];
+    var route = getByName(this, routeName);
     var result = matchOne(route, url);
     if (result !== false) {
       return result;
