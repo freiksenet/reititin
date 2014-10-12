@@ -2,20 +2,22 @@
 
 var _ = require('lodash');
 
+/* jshint unused:false */
 var routeDefs = [
-  // Route with named function, name is 'routes'
-  ['/route', function routes (match) {}],
-  // Route with explicit name, name is 'route', :id is parameter
-  ['/route/:id', 'route', function (match) {}],
+  // Basic route with callback and name 'routes'
+  ['/route', function (match) {}, 'routes'],
+  // Route with parameters, name is 'route', :id is parameter
+  ['/route/:id', function (match) {}, 'route'],
   // Route with url name, name is '/route/good'
   ['/route/good', function (match) {}],
   // Route with *splat, matches url fragment
-  ['/splat/*splat', function splat (match) {}],
+  ['/splat/*splat', function (match) {}, 'splat'],
   // Route with (optional) fragment
-  ['/optional(/thing)', function option (match) {}]
+  ['/optional(/thing)', function (match) {}, 'option']
 ];
 
 var routeDefsWithDefault = [['*', function (match) {}]].concat(routeDefs);
+/* jshint ignore:end */
 
 describe("Router", function () {
   it("must accept all ways to construct routes", function () {

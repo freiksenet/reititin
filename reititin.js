@@ -4,16 +4,6 @@ var _ = require('lodash');
 var qs = require('query-string');
 var Route = require('route-parser');
 
-function fnName (fn) {
-  if (Function.prototype.name === undefined) {
-    var funcNameRegex = /function\s([^(]{1,})\(/;
-    var results = (funcNameRegex).exec((fn).toString());
-    return (results && results.length > 1) ? results[1].trim() : "";
-  } else {
-    return fn.name;
-  }
-}
-
 function inherits (ctor, superCtor) {
   ctor.super_ = superCtor;
   ctor.prototype = Object.create(superCtor.prototype, {
@@ -40,16 +30,11 @@ var Router = function (routes) {
       var routeCallback = false;
 
       if (routeDef.length === 3) {
-        routeName = routeDef[1];
-        routeCallback = routeDef[2];
-      } else {
+        routeName = routeDef[2];
         routeCallback = routeDef[1];
-      }
-
-      if (fnName(routeCallback).length > 0) {
-        routeName = fnName(routeCallback);
-      } else if (!routeName) {
+      } else {
         routeName = route;
+        routeCallback = routeDef[1];
       }
 
       this.add(routeName, route, routeCallback);

@@ -52,35 +52,34 @@ your favorite ~~poison~~module system or alternatively window.Reititin.
 route definitions, which are arrays of route and callback or route, name and
 callback. Callbacks to be called on successful routing with match object.
 
-All routes in Reititin have unique names. Reititin can get route in 3 different
+All routes in Reititin have unique names. Reititin can get route in 2 different
 ways:
 
-1. By getting an array of a name and a callback function as a routing function.
-2. By getting name of a named function as a routing function
-3. Using full route definition
+1. By getting name of a named function as a routing function
+2. Using route path
 
 ```js
 var Reititin = require('reititin');
 
-var routeDef = [
-  // Route with named function, name is 'routes'
-  ['/route', function routes (match) {}],
-  // Route with explicit name, name is 'route', :id is parameter
-  ['/route/:id', 'route', function (match) {}],
+var routeDefs = [
+  // Basic route with callback and name 'routes'
+  ['/route', function (match) {}, 'routes'],
+  // Route with parameters, name is 'route', :id is parameter
+  ['/route/:id', function (match) {}, 'route'],
   // Route with url name, name is '/route/good'
   ['/route/good', function (match) {}],
   // Route with *splat, matches url fragment
-  ['/splat/*splat', function splat (match) {}],
+  ['/splat/*splat', function (match) {}, 'splat'],
   // Route with (optional) fragment
-  ['/optional(/thing)', function option (match) {}]
+  ['/optional(/thing)', function (match) {}, 'option']
 ];
 
 // Creating router
-var router = new Reititin.Router(routeDef);
+var router = new Reititin.Router(routeDefs);
 
 // Optional catch all match
-routeDef['*'] = function (match) {};
-var routerWithDefault = new Reititin.Router(routeDef);
+routeDefs['*'] = function (match) {};
+var routerWithDefault = new Reititin.Router(routeDefs);
 ```
 
 ### Router.match(url)

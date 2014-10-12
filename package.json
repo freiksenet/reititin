@@ -36,7 +36,7 @@
   "scripts": {
     "umd": "webpack --config webpack.config.js",
     "umd-min": "webpack --config webpack.config.min.js",
-    "test": "jshint reititin.js tests/*.js && karma start --single-run --browsers Firefox",
+    "test": "jshint reititin.js test/*.js && karma start --single-run --browsers Firefox",
     "test-watch": "karma start"
   }
 }
