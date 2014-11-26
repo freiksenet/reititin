@@ -112,3 +112,17 @@ describe("HashRouter", function () {
     // TODO
   });
 });
+
+describe("HistoryRouter", function () {
+  it("must bind and unbind window event", function () {
+    // TODO
+  });
+
+  it("must react to popped state", function () {
+    // TODO
+  });
+
+  it("must update with correct state", function () {
+    // TODO
+  });
+});

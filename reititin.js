@@ -201,7 +201,43 @@ HashRouter.prototype.end = function () {
   }
 };
 
+var HistoryRouter = function (routes) {
+  HistoryRouter.super_.call(this, routes);
+  this.started = false;
+};
+
+inherits(HistoryRouter, Router);
+
+HistoryRouter.prototype.navigate = function (name, params, query, replace) {
+  var url = this.reverse(name, params, query);
+  var method = replace ? 'replaceState' : 'pushState';
+  window.history[method]({
+    name: name,
+    params: params,
+    query: query
+  }, name, url);
+  this.route(url);
+};
+
+HistoryRouter.prototype.start = function () {
+  if (!this.started) {
+    this.started = true;
+    this.listener = function (e) {
+      var location = window.location.pathname + window.location.search;
+      this.route(location);
+    }.bind(this);
+    window.onpopstate = this.listener;
+    this.listener();
+  };
+};
+
+HistoryRouter.prototype.stop = function () {
+  window.removeEventListener('popstate', this.listener);
+  this.started = false;
+};
+
 module.exports = {
   Router: Router,
-  HashRouter: HashRouter
+  HashRouter: HashRouter,
+  HistoryRouter: HistoryRouter
 };

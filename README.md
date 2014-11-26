@@ -170,11 +170,41 @@ for chaining. It will override existing routes if there is one with both name
 Removes a route, `name` is either a route name or route definition. Removes
 matching both by name and route definition.
 
-## Hooking up the real life - HashRouter
+## Hooking up the real life - HistoryRouter and HashRouter
+
+In general you can hook up router manually to any kind of url handling, be it
+server, client HistoryAPI or hash-url. Therefore Reititin is isomorphic (same
+code can be used on client in server). However, reititin provides ready made
+solutions for routing on client with hash urls and with History API. If you are
+using reititin both on client and server, you should inject client helper
+implementation.
+
+## HistoryRouter
+
+`Reititin.HistoryRouter` is a wrapper around `Reititin.Router` that uses History
+API for url handling. It has same interface as normal router, with 3 additional
+methods.
+
+### HistoryRouter.start()
+
+Binds `window.onpopstate` event, to react to browser forward/back button. Also
+tries to route with current url.
+
+### HistoryRouter.stop()
+
+Unbinds the `window.onpopstate` event.
+
+### HistoryRouter.navigate(name, params, query, replace)
+
+Reverses the url with given name, params and query and then updates
+window.history. If `replace` is true, uses replaceState, uses pushState
+otherwise.
+
+## HashRouter
 
 `Reititin.HashRouter` is a wrapper around `Reititin.Router` that uses
-document.location.hash urls. It has same interface as normal router, but there
-are 3 extra methods in HashRouter.
+document.location.hash urls. It has same interface as normal router, with 3
+additional methods.
 
 ### HashRouter.start()
 
@@ -190,7 +220,3 @@ Unbinds the `window.onhashchange` event.
 
 Reverses the url with given name, params and query and then changes page has to
 it.
-
-## Different real life
-
-History API (aka pushState) and server-side routers are coming.
