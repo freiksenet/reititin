@@ -37,7 +37,7 @@ var Router = function (routes) {
         routeCallback = routeDef[1];
       }
 
-      this.add(routeName, route, routeCallback);
+      this.append(routeName, route, routeCallback);
     }
   }
 };
@@ -46,27 +46,43 @@ function getByName (router, name) {
   return router.routes[router.names[name]];
 }
 
-Router.prototype.add = function (name, route, callback) {
+function addRoute (router, name, route, callback) {
   if (route === '*') {
-    this.defaultRoute = {
-      name: 'default',
+    router.defaultRoute = {
+      name: '*',
       matcher: new Route('*url'),
       callback: callback
     };
+    router.names['*'] = '*url';
+    router.routes['*url'] = router.defaultRoute;
   } else {
-    this.remove(name);
-    this.remove(route);
+    router.remove(name);
+    router.remove(route);
 
-    this.names[name] = route;
-    this.routes[route] = {
+    router.names[name] = route;
+    router.routes[route] = {
       name: name,
       matcher: new Route(route),
       callback: callback
     };
-    this.routeList.push(name);
+
   }
 
-  return this;
+  return router;
+};
+
+Router.prototype.append = function (name, route, callback) {
+  addRoute(this, name, route, callback);
+  if (route !== '*') {
+    this.routeList.push(name);
+  }
+};
+
+Router.prototype.prepend = function (name, route, callback) {
+  addRoute(this, name, route, callback);
+  if (route !== '*') {
+    this.routeList.unshift(name);
+  }
 };
 
 Router.prototype.remove = function (name) {
@@ -108,18 +124,17 @@ function matchOne (route, url) {
 }
 
 Router.prototype.match = function (url) {
-  for (var i in this.routeList) {
-    var routeName = this.routeList[i];
+  var routeList = this.routeList;
+  if (this.defaultRoute !== undefined) {
+    routeList = routeList.concat([this.defaultRoute.name]);
+  }
+  for (var i in routeList) {
+    var routeName = routeList[i];
     var route = getByName(this, routeName);
     var result = matchOne(route, url);
     if (result !== false) {
       return result;
     }
-  }
-  if (this.defaultRoute) {
-    var defaultMatch = matchOne(this.defaultRoute, url);
-    defaultMatch.params = {};
-    return defaultMatch;
   }
   return false;
 };
