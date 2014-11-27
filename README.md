@@ -1,6 +1,6 @@
 # reititin - sane routing library
 
-![Build status](https://travis-ci.org/freiksenet/reititin.svg?branch=master)
+[![Build Status](https://travis-ci.org/freiksenet/reititin.svg?branch=master)](https://travis-ci.org/freiksenet/reititin)
 
 reititin (Finnish for 'router') is a small library to do essential routing.
 In my search for a router, I couldn't find one that matches all of the following

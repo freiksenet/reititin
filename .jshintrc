@@ -8,6 +8,7 @@
   "newcap": true,
   "maxlen": 80,
   "globalstrict": true,
-  "predef": ["module", "require", "window",
-            "describe", "it", "expect"]
+  "predef": ["browser", "module", "require", "window",
+            "describe", "it", "expect", "jasmine",
+            "setTimeout"]
 }

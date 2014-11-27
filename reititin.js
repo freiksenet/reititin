@@ -65,11 +65,10 @@ function addRoute (router, name, route, callback) {
       matcher: new Route(route),
       callback: callback
     };
-
   }
 
   return router;
-};
+}
 
 Router.prototype.append = function (name, route, callback) {
   addRoute(this, name, route, callback);
@@ -240,13 +239,13 @@ HistoryRouter.prototype.navigate = function (name, params, query, replace) {
 HistoryRouter.prototype.start = function () {
   if (!this.started) {
     this.started = true;
-    this.listener = function (e) {
+    this.listener = function () {
       var location = window.location.pathname + window.location.search;
       this.route(location);
     }.bind(this);
     window.addEventListener('popstate', this.listener);
     this.listener();
-  };
+  }
 };
 
 HistoryRouter.prototype.stop = function () {

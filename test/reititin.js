@@ -248,7 +248,7 @@ describe("HashRouter", function () {
     var routeCallback2 = jasmine.createSpy('routeCallback2');
     var routes = [
       ['/', routeCallback1],
-      ['/route2', routeCallback2],
+      ['/route2', routeCallback2]
     ];
     var router = new Reititin.HashRouter(routes);
 
