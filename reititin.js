@@ -97,7 +97,7 @@ Router.prototype.remove = function (name) {
     var routeName = this.routes[name].name;
     delete this.names[routeName];
     delete this.routes[name];
-    _.pull(this.routeList(routeName));
+    _.pull(this.routeList, routeName);
   }
 
   return this;
@@ -211,7 +211,7 @@ HashRouter.prototype.start = function () {
   }
 };
 
-HashRouter.prototype.end = function () {
+HashRouter.prototype.stop = function () {
   if (this.started) {
     window.removeEventListener('hashchange', this.listener);
     delete this.listener;
@@ -244,7 +244,7 @@ HistoryRouter.prototype.start = function () {
       var location = window.location.pathname + window.location.search;
       this.route(location);
     }.bind(this);
-    window.onpopstate = this.listener;
+    window.addEventListener('popstate', this.listener);
     this.listener();
   };
 };

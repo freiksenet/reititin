@@ -64,10 +64,10 @@ var Reititin = require('reititin');
 var routeDefs = [
   // Basic route with callback and name 'routes'
   ['/route', function (match) {}, 'routes'],
-  // Route with parameters, name is 'route', :id is parameter
-  ['/route/:id', function (match) {}, 'route'],
   // Route with url name, name is '/route/good'
   ['/route/good', function (match) {}],
+  // Route with parameters, name is 'route', :id is parameter
+  ['/route/:id', function (match) {}, 'route'],
   // Route with *splat, matches url fragment
   ['/splat/*splat', function (match) {}, 'splat'],
   // Route with (optional) fragment
@@ -90,14 +90,14 @@ If router fails to match, and there is no catch-all rule, the method will return
 false. If router matches, then method will return match object. Match object has
 4 fields, `name` is route name, `url` is full url that was matched, `params` is
 object of all url parameters and their value and, finally, `query` is a parsed
-querystring.
+querystring. Priority of routes is defined by the order in the list.
 
 ```js
 router.match('/ueou');
 // ==> false
 
-routerWithDefault.match('/ueoe');
-// ==> {name: 'default', url: '/ueoe', params: {}, query: {}}
+routerWithDefault.match('/ueoe?foo=2');
+// ==> {name: '*', url: '/ueoe', params: {url: '/ueoe'}, query: {foo: '2'}}
 
 router.match('/route');
 // ==> {name: 'routes', url: '/route', params: {}, query: {}}
@@ -143,10 +143,16 @@ router.find('routes', {}, {foo: [5, 2], bar: 'foo'}); // ==> '/route?foo=5&foo=2
 router.find('/route/good'); // ==> '/route/good'
 ```
 
-You can always pass full url definition, even if route has proper name
+Splats are parameters too.
 
 ```js
-router.find('/route/:id', {id: 5}); // ==> '/route/5'
+router.find('splat', {splat: 'baz/barg}); // >== '/splat/baz/barg'
+```
+
+Urls with optional fragments return with all the fragments in there.
+
+```js
+router.find('option'); // ==> '/optional/thing'
 ```
 
 ### Router.reverse(name, params, query)
@@ -159,11 +165,14 @@ $.ajax, etc.), so that browser won't go to '/false'.
 $.getJSON(router.reverse('routes'));
 ```
 
-### Router.add(name, route, callback)
+### Router.append(name, route, callback), Router.preend(name, route, callback)
 
 Add a new route with given `name`, `route` and `callback`. Returns router itself
 for chaining. It will override existing routes if there is one with both name
 *or* route definition.
+
+Difference between 'append' and 'prepend' is whether they add the routes to the
+beginning or end of the route list (for priority).
 
 ### Router.remove(name)
 
