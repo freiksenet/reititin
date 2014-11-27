@@ -176,7 +176,10 @@ Router.prototype.reverse = function (name, params, query) {
   if (url !== false) {
     return url;
   } else {
-    throw "Couldn't reverse " + name + " with given params " + params + ".";
+    throw (
+      "Couldn't reverse " + name +
+      " with given params. \n" + JSON.stringify(params)
+    );
   }
 };
 
